@@ -1,21 +1,27 @@
 // server.js
 
 // set up ======================================================================
-// get all the tools we need
-var express  = require('express');
-var app      = express();
-var port     = process.env.PORT || 8080;
+// get all the tools we need, packages(require), the objects
+var express = require('express');
+var app = express();
+var port = process.env.PORT || 8080;
 const MongoClient = require('mongodb').MongoClient
+//another way to support db, schemas (blueprint for db)
 var mongoose = require('mongoose');
+//security? strageties to login?
 var passport = require('passport');
+//alerts msg
 var flash    = require('connect-flash');
-
+//package that logs all request:
 var morgan       = require('morgan');
+//look at cookies, helps stay logged it:
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+//helps from keeping loggin
 var session      = require('express-session');
 
-var configDB = require('./config/database.js');
+//how to find db:
+var configDB = require('./config/database.js'); //object url
 
 var db
 
@@ -24,8 +30,9 @@ mongoose.connect(configDB.url, (err, database) => {
   if (err) return console.log(err)
   db = database
   require('./app/routes.js')(app, passport, db);
-}); // connect to our database
+}); // connect to our database thru routes
 
+//remember, this a function call:
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
